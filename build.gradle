@@ -1,0 +1,88 @@
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+mainClassName = "com.axxoncloud.data.export.Main"
+group = "com.axxoncloud.data.export"
+
+repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'org.jetbrains:annotations:13.0'
+
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.stimulsoft:stimulsoft-reports-libs:2018.2.3'
+
+    testCompile "junit:junit:4.12"
+    //testCompile "io.rest-assured:rest-assured:3.0.5"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main'
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes("Main-Class": "$mainClassName")
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion='4.8.1'
+    jarFile='wrapper/gradle-wrapper.jar'
+}
+/*
+task fatJar(type: Jar) {
+
+    baseName = project.name + '-all'
+    zip64 true
+    doFirst {
+        from {
+            configurations.runtime.collect {
+                print("including runtime ${it}\n")
+                it.isDirectory() ? it : zipTree(it)
+            }
+            configurations.compile.collect {
+                print("including ${it}\n")
+                it.isDirectory() ? it : zipTree(it)
+            }
+
+        }
+    }
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    with jar
+
+    manifest {
+        attributes 'Implementation-Title': "$group", 'Implementation-Version': version
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
+*/
+
+//run {
+//    args += '/Users/avgx/soft/itv/pos/axxonnext.data/backend/exportlib/r1.json'
+//}
